@@ -10,6 +10,7 @@
   "dependencies": {
     "@huggingface/inference": "^4.13.26",
     "@huggingface/transformers": "^4.2.0",
+    "@langchain/core": "^1.2.8",
     "@langchain/textsplitters": "^1.0.1",
     "@supabase/supabase-js": "^2.111.0",
     "@tailwindcss/postcss": "^4.3.3",
