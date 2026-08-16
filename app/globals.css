@@ -23,7 +23,7 @@ body {
   height: 100%;
 }
 
-/* Scrollbar */
+/* Dark scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -31,11 +31,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #424242;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #616161;
 }
 
 /* Focus ring utility */
@@ -47,7 +47,7 @@ body {
 /* Input caret color */
 input,
 textarea {
-  caret-color: #3b82f6;
+  caret-color: #60a5fa;
 }
 
 /* Mobile slide-in animation */

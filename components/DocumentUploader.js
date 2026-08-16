@@ -117,8 +117,8 @@ export default function DocumentUploader() {
         onClick={() => fileInputRef.current?.click()}
         className={`relative flex flex-col items-center justify-center gap-3 border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
           isDragging
-            ? "border-blue-500 bg-blue-50/60"
-            : "border-slate-300 hover:border-blue-400 hover:bg-slate-50"
+            ? "border-blue-500 bg-blue-500/10"
+            : "border-white/10 hover:border-white/20 hover:bg-white/5"
         }`}
       >
         <input
@@ -133,29 +133,29 @@ export default function DocumentUploader() {
         />
         <div
           className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-            isDragging ? "bg-blue-100" : "bg-slate-100"
+            isDragging ? "bg-blue-500/20" : "bg-white/5"
           }`}
         >
           <FileUp
             size={22}
-            className={isDragging ? "text-blue-500" : "text-slate-400"}
+            className={isDragging ? "text-blue-400" : "text-gray-500"}
           />
         </div>
         <div>
           {isUploading ? (
-            <p className="text-sm font-medium text-blue-600 flex items-center justify-center gap-2">
+            <p className="text-sm font-medium text-blue-400 flex items-center justify-center gap-2">
               <Loader2 size={14} className="animate-spin" />
               Processing document...
             </p>
           ) : (
-            <p className="text-sm text-slate-600">
-              <span className="font-semibold text-blue-600 underline underline-offset-2">
+            <p className="text-sm text-gray-400">
+              <span className="font-semibold text-blue-400 underline underline-offset-2">
                 Browse
               </span>{" "}
               or drag and drop
             </p>
           )}
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             TXT, MD, CSV, JSON &mdash; up to 10 MB
           </p>
         </div>
@@ -163,11 +163,11 @@ export default function DocumentUploader() {
 
       {/* Divider */}
       <div className="relative flex items-center">
-        <div className="flex-1 border-t border-slate-200" />
-        <span className="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+        <div className="flex-1 border-t border-white/10" />
+        <span className="px-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
           or paste text
         </span>
-        <div className="flex-1 border-t border-slate-200" />
+        <div className="flex-1 border-t border-white/10" />
       </div>
 
       {/* Text input */}
@@ -178,12 +178,12 @@ export default function DocumentUploader() {
           placeholder="Paste your document content here..."
           rows={4}
           disabled={isUploading}
-          className="w-full resize-none rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400 focus:bg-white disabled:opacity-50"
+          className="w-full resize-none rounded-xl border border-white/10 bg-[#2f2f2f] px-4 py-3 text-sm text-gray-100 placeholder-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={isUploading || !textInput.trim()}
-          className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+          className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 focus:ring-offset-[#1a1a1a] disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isUploading ? (
             <Loader2 size={15} className="animate-spin" />
@@ -197,38 +197,38 @@ export default function DocumentUploader() {
       {/* Result */}
       {uploadResult && (
         <div
-          className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-sm ${
+          className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm ${
             uploadResult.success
-              ? "bg-emerald-50 border-emerald-200"
-              : "bg-red-50 border-red-200"
+              ? "bg-emerald-500/10 border-emerald-500/20"
+              : "bg-red-500/10 border-red-500/20"
           }`}
         >
           {uploadResult.success ? (
             <CheckCircle
               size={16}
-              className="text-emerald-500 mt-0.5 shrink-0"
+              className="text-emerald-400 mt-0.5 shrink-0"
             />
           ) : (
             <AlertCircle
               size={16}
-              className="text-red-500 mt-0.5 shrink-0"
+              className="text-red-400 mt-0.5 shrink-0"
             />
           )}
           <div className="flex-1 min-w-0">
             <p
               className={`font-semibold ${
-                uploadResult.success ? "text-emerald-700" : "text-red-700"
+                uploadResult.success ? "text-emerald-300" : "text-red-300"
               }`}
             >
               {uploadResult.message}
             </p>
-            <p className="text-xs text-slate-500 mt-0.5 truncate">
+            <p className="text-xs text-gray-500 mt-0.5 truncate">
               {uploadResult.filename}
             </p>
           </div>
           <button
             onClick={() => setUploadResult(null)}
-            className="shrink-0 w-5 h-5 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 transition-colors"
+            className="shrink-0 w-5 h-5 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-300 hover:bg-white/10 transition-colors"
           >
             <X size={13} />
           </button>
