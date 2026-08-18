@@ -1,11 +1,49 @@
 import { NextResponse } from "next/server";
-import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-import { getSupabaseAdmin } from "@/lib/supabase";
-import { embedQuery } from "@/lib/embeddings";
-import { extractText } from "unpdf";
+
+let _splitter = null;
+let _supabaseAdmin = null;
+let _embedQuery = null;
+let _extractText = null;
+
+async function getSplitter() {
+  if (!_splitter) {
+    const { RecursiveCharacterTextSplitter } = await import("@langchain/textsplitters");
+    _splitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 200,
+      separators: ["\n\n", "\n", ". ", " ", ""],
+    });
+  }
+  return _splitter;
+}
+
+async function getSupabaseAdminLazy() {
+  if (!_supabaseAdmin) {
+    const { getSupabaseAdmin } = await import("@/lib/supabase");
+    _supabaseAdmin = getSupabaseAdmin();
+  }
+  return _supabaseAdmin;
+}
+
+async function getEmbedQuery() {
+  if (!_embedQuery) {
+    const { embedQuery } = await import("@/lib/embeddings");
+    _embedQuery = embedQuery;
+  }
+  return _embedQuery;
+}
+
+async function getExtractText() {
+  if (!_extractText) {
+    const { extractText } = await import("unpdf");
+    _extractText = extractText;
+  }
+  return _extractText;
+}
 
 async function parsePdf(arrayBuffer) {
   const uint8 = new Uint8Array(arrayBuffer);
+  const extractText = await getExtractText();
   const result = await extractText(uint8);
   if (typeof result === "string") return result;
   if (result?.text) return result.text;
@@ -61,19 +99,15 @@ export async function POST(request) {
       );
     }
 
-    const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
-      separators: ["\n\n", "\n", ". ", " ", ""],
-    });
-
+    const splitter = await getSplitter();
     const docs = await splitter.createDocuments([content], [metadata]);
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = await getSupabaseAdminLazy();
+    const embedQueryFn = await getEmbedQuery();
     let inserted = 0;
 
     for (const doc of docs) {
-      const embedding = await embedQuery(doc.pageContent);
+      const embedding = await embedQueryFn(doc.pageContent);
       const embeddingStr = `[${embedding.join(",")}]`;
 
       const { error } = await supabaseAdmin.rpc("insert_document", {

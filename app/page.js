@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-[100dvh] min-h-screen bg-[#212121] text-gray-100 overflow-hidden">
       {/* Header */}
-      <header className="relative z-30 h-14 min-h-14 w-full bg-[#212121] border-b border-white/10 px-3 sm:px-6 flex items-center justify-between shrink-0">
+      <header className="relative z-30 min-h-[52px] sm:h-14 w-full bg-[#212121] border-b border-white/10 px-4 sm:px-6 flex items-center justify-between shrink-0">
         {/* Logo */}
         <div className="flex items-center min-w-0">
           <div className="flex items-center gap-2.5">
@@ -53,10 +53,10 @@ export default function Home() {
         <button
           onClick={() => setSidebarOpen((v) => !v)}
           className="
-            flex items-center justify-center gap-1.5
-            h-9 sm:h-10
-            px-3 sm:px-4
-            text-xs sm:text-sm
+            flex items-center justify-center gap-2
+            h-10 sm:h-10
+            px-3.5 sm:px-4
+            text-[13px] sm:text-sm
             font-medium
             text-gray-300
             border border-white/10

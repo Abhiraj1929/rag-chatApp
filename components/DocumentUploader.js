@@ -34,7 +34,14 @@ export default function DocumentUploader() {
         body: formData,
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      let data;
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(text.slice(0, 200) || `Server error (${response.status})`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || "Upload failed");
@@ -73,7 +80,14 @@ export default function DocumentUploader() {
         body: formData,
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+      let data;
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(text.slice(0, 200) || `Server error (${response.status})`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || "Ingestion failed");
